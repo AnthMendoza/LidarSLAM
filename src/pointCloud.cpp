@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
+#include "../include/VLP16API.h"
 
 struct Point {
     float x, y, z;
@@ -17,6 +18,9 @@ void drawPointCloud(const std::vector<Point>& points) {
     }
     glEnd();
 }
+
+
+
 
 int main() {
     if (!glfwInit()) {
@@ -40,8 +44,9 @@ int main() {
     };
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-
+    std::vector<Point> points;
     while (!glfwWindowShouldClose(window)) {
+        points = getPoints();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_PROJECTION);
@@ -55,6 +60,7 @@ int main() {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
     }
 
     glfwDestroyWindow(window);
