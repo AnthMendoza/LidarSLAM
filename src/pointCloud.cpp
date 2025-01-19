@@ -48,7 +48,7 @@ int main() {
         getPoints(points);
 
         for(auto point : points ){
-            std::cout<< "("<<point.x << " , " point.y << " , " point.z << ")";
+            std::cout<< "("<<point.x << " , " << point.y << " , " <<point.z << ")";
         }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -22,15 +22,15 @@ std::vector<Point> points;
 
 std::mutex readAndWrite;
 
-void readPacket(Packet &packet , std::vector<Point> &points, dataBlock* blocks , std::array<float , 16> &verticalAngle){
+void readPacket(Packet &packet , std::vector<Point> &points , std::array<float , 16> &verticalAngle){
     std::lock_guard<std::mutex> lock(readAndWrite);
     points.clear();
 
     for( int i = 0 ; i <  16 ; i++){
         Point point;
-        point.x = static_cast<float>(blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) *sinf(verticalAngle[i]);
-        point.y = static_cast<float>(blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) *cosf(verticalAngle[i]);
-        point.z = static_cast<float>(blocks[i].AdistChannel0) * .002f * sinf(verticalAngle[i]);
+        point.x = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) * sinf(static_cast<float>(packet.blocks[i].azimuth));
+        point.y = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) * cosf(static_cast<float>(packet.blocks[i].azimuth));
+        point.z = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * sinf(verticalAngle[i]);
 
         points.push_back(point);
     }
@@ -73,13 +73,6 @@ void UDP() {
     sockaddr_in clientAddr{};
     socklen_t clientAddrLen = sizeof(clientAddr);
 
-    dataBlock* blocks[] = {
-        &packet.block0, &packet.block1, &packet.block2, &packet.block3,
-        &packet.block4, &packet.block5, &packet.block6, &packet.block7,
-        &packet.block8, &packet.block9, &packet.block10, &packet.block11,
-        &packet.block12, &packet.block13, &packet.block14, &packet.block15
-    };
-
     std::array<float , 16> verticalAngles = {-15,1,-13,-3,-11,5,-9,7,-7,9,-5,11,-3,13,-1,15}; //degrees
 
     for(int i = 0 ; i < 16 ; i++){
@@ -100,10 +93,10 @@ void UDP() {
        //std::cout << "Received " << bytesReceived << " bytes as hex:\n";
         if(bytesReceived == BUFFER_SIZE){
             for(int i = 0 ; i < 12 ; i++){
-                memcpy(blocks[i] , buffer + i * 100 , 100);
+                memcpy(packet.blocks[i] , buffer + i * 100 , 100);
             }
             memcpy(&packet.timeStamp , buffer + 1200, 4);
-            readPacket(packet , points ,*blocks,verticalAngles);
+            readPacket(packet , points,verticalAngles);
         }else{
             std::cout<<"Packet Failed expected size " << BUFFER_SIZE << "bytes : recieved "<< bytesReceived << " bytes";
         }

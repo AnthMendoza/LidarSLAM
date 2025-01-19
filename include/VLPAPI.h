@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <array>
 
 struct dataBlock{
 
@@ -79,22 +80,8 @@ struct dataBlock{
 };
 
 struct Packet{
-    dataBlock block0;
-    dataBlock block1;
-    dataBlock block2;
-    dataBlock block3;
-    dataBlock block4;
-    dataBlock block5;
-    dataBlock block6;
-    dataBlock block7;
-    dataBlock block8;
-    dataBlock block9;
-    dataBlock block10;
-    dataBlock block11;
-    dataBlock block12;
-    dataBlock block13;
-    dataBlock block14;
-    dataBlock block15;
+
+    std::array<dataBlock, 16> blocks; 
 
     uint32_t timeStamp;
 };
