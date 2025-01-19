@@ -64,7 +64,13 @@ int main() {
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(0.0f, 0.0f, -3.0f);
+        glTranslatef(0.0f, 8.0f, -8.0f);
+        glm::vec3 cameraPos(0.0f, 8.0f, -8.0f); 
+        glm::vec3 target(0.0f, 0.0f, 0.0f);
+        glm::vec3 up(0.0f, 1.0f, 0.0f);
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadMatrixf(glm::value_ptr(view)); // Apply the view matrix
 
         drawPointCloud(setOfPoints);
 
