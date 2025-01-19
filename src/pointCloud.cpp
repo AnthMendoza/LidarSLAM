@@ -66,7 +66,7 @@ int main() {
         glLoadIdentity();
         glTranslatef(4.0f, 4.0f, 4.0f);
         glm::vec3 cameraPos(4.0f, 4.0f, 4.0f); 
-        glm::vec3 target(6.0f, 0.0f, 0.0f);
+        glm::vec3 target(0.0f, 0.0f, 0.0f);
         glm::vec3 up(0.0f, 0.0f, -1.0f);
         glm::mat4 view = glm::lookAt(cameraPos, target, up);
         glMatrixMode(GL_MODELVIEW);

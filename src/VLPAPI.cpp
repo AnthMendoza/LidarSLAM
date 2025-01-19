@@ -34,7 +34,7 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             &packet.blocks[i].AdistChannel6, &packet.blocks[i].AdistChannel7,  &packet.blocks[i].AdistChannel8,
             &packet.blocks[i].AdistChannel9, &packet.blocks[i].AdistChannel10, &packet.blocks[i].AdistChannel11,
             &packet.blocks[i].AdistChannel12,&packet.blocks[i].AdistChannel13, &packet.blocks[i].AdistChannel14,
-            &packet.blocks[i].AdistChannel15,
+            &packet.blocks[i].AdistChannel15
             //&packet.blocks[i].BdistChannel0, &packet.blocks[i].BdistChannel1,  &packet.blocks[i].BdistChannel2,
             //&packet.blocks[i].BdistChannel3, &packet.blocks[i].BdistChannel4,  &packet.blocks[i].BdistChannel5,
             //&packet.blocks[i].BdistChannel6, &packet.blocks[i].BdistChannel7,  &packet.blocks[i].BdistChannel8,
