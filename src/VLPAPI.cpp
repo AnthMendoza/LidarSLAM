@@ -15,7 +15,7 @@
 
 
 
-
+1
 Packet packet;
 
 std::vector<Point> points;
@@ -26,13 +26,26 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
     std::lock_guard<std::mutex> lock(readAndWrite);
     points.clear();
 
-    for( int i = 0 ; i <  16 ; i++){
-        Point point;
-        point.x = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) * sinf(static_cast<float>(packet.blocks[i].azimuth));
-        point.y = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) * cosf(static_cast<float>(packet.blocks[i].azimuth));
-        point.z = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * sinf(verticalAngle[i]);
+    for( int i = 0 ; i <  12 ; i++){
 
-        points.push_back(point);
+        uint16_t* AdistChannels[] = {
+            &packet.blocks[i].AdistChannel0, &packet.blocks[i].AdistChannel1,  &packet.blocks[i].AdistChannel2,
+            &packet.blocks[i].AdistChannel3, &packet.blocks[i].AdistChannel4,  &packet.blocks[i].AdistChannel5,
+            &packet.blocks[i].AdistChannel6, &packet.blocks[i].AdistChannel7,  &packet.blocks[i].AdistChannel8,
+            &packet.blocks[i].AdistChannel9, &packet.blocks[i].AdistChannel10, &packet.blocks[i].AdistChannel11,
+            &packet.blocks[i].AdistChannel12,&packet.blocks[i].AdistChannel13, &packet.blocks[i].AdistChannel14,
+            &packet.blocks[i].AdistChannel15
+        };
+
+        for(int j = 0 ; j<16 ; j++){
+            Point point;
+            point.x = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) * sinf(static_cast<float>(packet.blocks[j].azimuth));
+            point.y = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) * cosf(static_cast<float>(packet.blocks[j].azimuth));
+            point.z = static_cast<float>(packet.blocks[i].AdistChannel0) * .002f * sinf(verticalAngle[i]);
+
+            points.push_back(point);
+        }
+        
     }
 
 }
