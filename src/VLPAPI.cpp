@@ -10,7 +10,9 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <array>
 #include "../include/VLPAPI.h"
+#include <cmath>
 
 
 
@@ -42,15 +44,6 @@ void getPoints(std::vector<Point> &returnPoints){
 
 }
 
-
-
-void initUDP(){
-    
-    std::thread UDPThread(UDP);
-
-    UDPThread.join();
-
-}
 
 
 
@@ -110,10 +103,19 @@ void UDP() {
                 memcpy(blocks[i] , buffer + i * 100 , 100);
             }
             memcpy(&packet.timeStamp , buffer + 1200, 4);
-            readPacket(packet , points ,blocks,verticalAngles);
+            readPacket(packet , points ,*blocks,verticalAngles);
         }else{
             std::cout<<"Packet Failed expected size " << BUFFER_SIZE << "bytes : recieved "<< bytesReceived << " bytes";
         }
     }
     close(sock);
+}
+
+
+void initUDP(){
+    
+    std::thread UDPThread(UDP);
+
+    UDPThread.join();
+
 }
