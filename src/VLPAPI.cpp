@@ -28,9 +28,10 @@ void readPacket(Packet &packet , std::vector<Point> &points, dataBlock* blocks ,
 
     for( int i = 0 ; i <  16 ; i++){
         Point point;
-        point.x = blocks[i].AdistChannel0 * cosf(verticalAngle[i]) *sinf(verticalAngle[i]);
-        point.y = blocks[i].AdistChannel0 * cosf(verticalAngle[i]) *cosf(verticalAngle[i]);
-        point.z = blocks[i].AdistChannel0 *sinf(verticalAngle[i]);
+        point.x = static_cast<float>blocks[i].AdistChannel0 * .002f * cosf(verticalAngle[i]) *sinf(verticalAngle[i]);
+        point.y = static_cast<float>blocks[i].AdistChannel0 * .002f * cosf(verticalAngle[i]) *cosf(verticalAngle[i]);
+        point.z = static_cast<float>blocks[i].AdistChannel0 * .002f * sinf(verticalAngle[i]);
+
         points.push_back(point);
     }
 

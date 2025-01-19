@@ -41,7 +41,7 @@ int main() {
 
 
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
     std::vector<Point> points;
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
