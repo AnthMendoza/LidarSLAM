@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-void drawPointCloud(const std::array<std::vector<Point>, 100> &setOfPoints) {
+void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
     glBegin(GL_POINTS);
     for(const auto cluster : setOfPoints ){
         for (const auto& point : cluster) {
@@ -45,12 +45,12 @@ int main() {
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
     std::vector<Point> points;
-    std::array<std::vector<Point>, 100> setOfPoints = {};
+    std::array<std::vector<Point>, 300> setOfPoints = {};
     int count = 0;
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
 
-        setOfPoints[static_cast<int>(count%100)] = points;
+        setOfPoints[static_cast<int>(count%300)] = points;
 
         count++;
 
@@ -64,10 +64,10 @@ int main() {
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(0.0f, 8.0f, -8.0f);
-        glm::vec3 cameraPos(0.0f, 8.0f, -8.0f); 
-        glm::vec3 target(0.0f, 0.0f, 0.0f);
-        glm::vec3 up(0.0f, 1.0f, 0.0f);
+        glTranslatef(6.0f, 6.0f, 8.0f);
+        glm::vec3 cameraPos(6.0f, 6.0f, 8.0f); 
+        glm::vec3 target(6.0f, 0.0f, 0.0f);
+        glm::vec3 up(0.0f, 0.0f, 1.0f);
         glm::mat4 view = glm::lookAt(cameraPos, target, up);
         glMatrixMode(GL_MODELVIEW);
         glLoadMatrixf(glm::value_ptr(view)); // Apply the view matrix
