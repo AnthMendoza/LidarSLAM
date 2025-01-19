@@ -35,12 +35,12 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             &packet.blocks[i].AdistChannel9, &packet.blocks[i].AdistChannel10, &packet.blocks[i].AdistChannel11,
             &packet.blocks[i].AdistChannel12,&packet.blocks[i].AdistChannel13, &packet.blocks[i].AdistChannel14,
             &packet.blocks[i].AdistChannel15,
-            &packet.blocks[i].BdistChannel0, &packet.blocks[i].BdistChannel1,  &packet.blocks[i].BdistChannel2,
-            &packet.blocks[i].BdistChannel3, &packet.blocks[i].BdistChannel4,  &packet.blocks[i].BdistChannel5,
-            &packet.blocks[i].BdistChannel6, &packet.blocks[i].BdistChannel7,  &packet.blocks[i].BdistChannel8,
-            &packet.blocks[i].BdistChannel9, &packet.blocks[i].BdistChannel10, &packet.blocks[i].BdistChannel11,
-            &packet.blocks[i].BdistChannel12,&packet.blocks[i].BdistChannel13, &packet.blocks[i].BdistChannel14,
-            &packet.blocks[i].BdistChannel15
+            //&packet.blocks[i].BdistChannel0, &packet.blocks[i].BdistChannel1,  &packet.blocks[i].BdistChannel2,
+            //&packet.blocks[i].BdistChannel3, &packet.blocks[i].BdistChannel4,  &packet.blocks[i].BdistChannel5,
+            //&packet.blocks[i].BdistChannel6, &packet.blocks[i].BdistChannel7,  &packet.blocks[i].BdistChannel8,
+            //&packet.blocks[i].BdistChannel9, &packet.blocks[i].BdistChannel10, &packet.blocks[i].BdistChannel11,
+            //&packet.blocks[i].BdistChannel12,&packet.blocks[i].BdistChannel13, &packet.blocks[i].BdistChannel14,
+            //&packet.blocks[i].BdistChannel15
         };
 
         for(int j = 0 ; j<32 ; j++){
