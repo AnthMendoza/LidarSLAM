@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-void drawPointCloud(const std::array<std::vector<Point>, 20> &setOfPoints , int sizeSetOfPoints) {
+void drawPointCloud(const std::array<std::vector<Point>, 20> &setOfPoints) {
     glBegin(GL_POINTS);
     for(const auto cluster : setOfPoints ){
         for (const auto& point : cluster) {
@@ -41,17 +41,16 @@ int main() {
     }
     std::thread UDPThread(UDP);
 
-    int sizeSetOfPoints = 20;
 
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
     std::vector<Point> points;
-    std::array<std::vector<Point>, sizeSetOfPoints> setOfPoints = {};
+    std::array<std::vector<Point>, 20> setOfPoints = {};
     int count = 0;
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
 
-        setOfPoints[static_cast<int>(count/sizeSetOfPoints)] = points;
+        setOfPoints[static_cast<int>(count/20)] = points;
 
         count++;
 
@@ -67,7 +66,7 @@ int main() {
         glLoadIdentity();
         glTranslatef(0.0f, 0.0f, -3.0f);
 
-        drawPointCloud(setOfPoints, sizeSetOfPoints);
+        drawPointCloud(setOfPoints);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
