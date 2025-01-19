@@ -67,7 +67,7 @@ int main() {
         glTranslatef(6.0f, 6.0f, 8.0f);
         glm::vec3 cameraPos(6.0f, 6.0f, 8.0f); 
         glm::vec3 target(6.0f, 0.0f, 0.0f);
-        glm::vec3 up(0.0f, 0.0f, 1.0f);
+        glm::vec3 up(0.0f, 0.0f, -1.0f);
         glm::mat4 view = glm::lookAt(cameraPos, target, up);
         glMatrixMode(GL_MODELVIEW);
         glLoadMatrixf(glm::value_ptr(view)); // Apply the view matrix
