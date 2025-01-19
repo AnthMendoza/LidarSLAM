@@ -9,8 +9,9 @@
 #include <thread>
 #include <iostream>
 
+#define PERSISTENCE 100; 
 
-void drawPointCloud(const std::array<std::vector<Point>, 20> &setOfPoints) {
+void drawPointCloud(const std::array<std::vector<Point>, PERSISTENCE> &setOfPoints) {
     glBegin(GL_POINTS);
     for(const auto cluster : setOfPoints ){
         for (const auto& point : cluster) {
@@ -45,12 +46,12 @@ int main() {
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
     std::vector<Point> points;
-    std::array<std::vector<Point>, 20> setOfPoints = {};
+    std::array<std::vector<Point>, PERSISTENCE> setOfPoints = {};
     int count = 0;
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
 
-        setOfPoints[static_cast<int>(count%20)] = points;
+        setOfPoints[static_cast<int>(count%PERSISTENCE)] = points;
 
         count++;
 
