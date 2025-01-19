@@ -106,7 +106,7 @@ struct Point {
 
 
 
-void initUDP();
+void UDP();
 
 void getPoints(std::vector<Point> &returnPoints);
 

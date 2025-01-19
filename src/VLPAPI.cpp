@@ -8,7 +8,6 @@
 #include <unistd.h>      // For close()
 #include <bitset>
 #include <mutex>
-#include <thread>
 #include <vector>
 #include <array>
 #include "../include/VLPAPI.h"
@@ -109,13 +108,4 @@ void UDP() {
         }
     }
     close(sock);
-}
-
-
-void initUDP(){
-    
-    std::thread UDPThread(UDP);
-
-    UDPThread.join();
-
 }

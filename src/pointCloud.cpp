@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include "../include/VLPAPI.h"
+#include <thread>
 
 
 void drawPointCloud(const std::vector<Point>& points) {
@@ -35,8 +36,10 @@ int main() {
     if (glewInit() != GLEW_OK) {
         return -1;
     }
+    std::thread UDPThread(UDP);
 
-    initUDP();
+
+
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     std::vector<Point> points;
@@ -60,6 +63,8 @@ int main() {
 
     glfwDestroyWindow(window);
     glfwTerminate();
+
+    UDPThread.join();
     return 0;
 }
 
