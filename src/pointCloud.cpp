@@ -50,7 +50,7 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
 
-        setOfPoints[static_cast<int>(count/20)] = points;
+        setOfPoints[static_cast<int>(count%20)] = points;
 
         count++;
 
