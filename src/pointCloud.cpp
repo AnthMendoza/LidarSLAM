@@ -7,6 +7,7 @@
 #include <vector>
 #include "../include/VLPAPI.h"
 #include <thread>
+#include <iostream>
 
 
 void drawPointCloud(const std::vector<Point>& points) {
@@ -45,6 +46,10 @@ int main() {
     std::vector<Point> points;
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
+
+        for(auto point : points ){
+            std::cout<< "("<<point.x << " , " point.y << " , " point.z << ")";
+        }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_PROJECTION);
