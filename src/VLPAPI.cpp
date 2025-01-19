@@ -48,8 +48,9 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             point.x = static_cast<float>(packet.blocks[i].distChannel0) * .002f * cosf(verticalAngle[i]) * sinf((static_cast<float>(packet.blocks[j].azimuth)/100)* 0.01745329252f);
             point.y = static_cast<float>(packet.blocks[i].distChannel0) * .002f * cosf(verticalAngle[i]) * cosf((static_cast<float>(packet.blocks[j].azimuth)/100)* 0.01745329252f);
             point.z = static_cast<float>(packet.blocks[i].distChannel0) * .002f * sinf(verticalAngle[i]);
-
-            points.push_back(point);
+            if(point.x != 0 && point.y != 0){
+                points.push_back(point); 
+            }
         }
         
     }
