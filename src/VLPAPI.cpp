@@ -28,9 +28,9 @@ void readPacket(Packet &packet , std::vector<Point> &points, dataBlock* blocks ,
 
     for( int i = 0 ; i <  16 ; i++){
         Point point;
-        point.x = static_cast<float>blocks[i].AdistChannel0 * .002f * cosf(verticalAngle[i]) *sinf(verticalAngle[i]);
-        point.y = static_cast<float>blocks[i].AdistChannel0 * .002f * cosf(verticalAngle[i]) *cosf(verticalAngle[i]);
-        point.z = static_cast<float>blocks[i].AdistChannel0 * .002f * sinf(verticalAngle[i]);
+        point.x = static_cast<float>(blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) *sinf(verticalAngle[i]);
+        point.y = static_cast<float>(blocks[i].AdistChannel0) * .002f * cosf(verticalAngle[i]) *cosf(verticalAngle[i]);
+        point.z = static_cast<float>(blocks[i].AdistChannel0) * .002f * sinf(verticalAngle[i]);
 
         points.push_back(point);
     }
@@ -97,7 +97,7 @@ void UDP() {
             break;
         }
 
-        std::cout << "Received " << bytesReceived << " bytes as hex:\n";
+       //std::cout << "Received " << bytesReceived << " bytes as hex:\n";
         if(bytesReceived == BUFFER_SIZE){
             for(int i = 0 ; i < 12 ; i++){
                 memcpy(blocks[i] , buffer + i * 100 , 100);
