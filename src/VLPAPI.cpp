@@ -93,7 +93,7 @@ void UDP() {
        //std::cout << "Received " << bytesReceived << " bytes as hex:\n";
         if(bytesReceived == BUFFER_SIZE){
             for(int i = 0 ; i < 12 ; i++){
-                memcpy(packet.blocks[i] , buffer + i * 100 , 100);
+                memcpy(&packet.blocks[i] , buffer + i * 100 , 100);
             }
             memcpy(&packet.timeStamp , buffer + 1200, 4);
             readPacket(packet , points,verticalAngles);
