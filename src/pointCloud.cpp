@@ -39,9 +39,7 @@ int main() {
         return -1;
     }
 
-    std::vector<Point> points = {
-        {0.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}
-    };
+    initUDP();
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     std::vector<Point> points;
