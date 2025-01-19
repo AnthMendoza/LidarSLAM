@@ -43,7 +43,7 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             //&packet.blocks[i].BdistChannel15
         };
 
-        for(int j = 0 ; j<32 ; j++){
+        for(int j = 0 ; j<16 ; j++){
             Point point;
             point.x = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * sinf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
             point.y = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * cosf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
