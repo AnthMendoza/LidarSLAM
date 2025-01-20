@@ -65,7 +65,7 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             point.x = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * sinf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
             point.y = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * cosf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
             point.z = static_cast<float>(*distChannels[j]) * .002f * sinf(verticalAngle[i]);
-            point.reflectivity = reflectivity[j];
+            point.reflectivity = *reflectivity[j];
             if( reflectivity >= threashold){
                 points.push_back(point); 
             }
