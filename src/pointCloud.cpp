@@ -21,13 +21,13 @@ void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
 }
 
 
-void filterPoints(Point &points){
-
-    for(auto point : points){
-        
-    }
-
-}
+//void filterPoints(Point &points){
+//
+//    for(auto point : points){
+//        
+//    }
+//
+//}
 
 
 
@@ -60,7 +60,7 @@ int main() {
 
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
-        filterPoints(points);
+        //filterPoints(points);
 
         setOfPoints[static_cast<int>(count%300)] = points;
 
