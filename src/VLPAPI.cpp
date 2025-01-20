@@ -29,27 +29,46 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
     for( int i = 0 ; i <  12 ; i++){
 
         uint16_t* distChannels[] = {
-            &packet.blocks[i].AdistChannel0, &packet.blocks[i].AdistChannel1,  &packet.blocks[i].AdistChannel2,
-            &packet.blocks[i].AdistChannel3, &packet.blocks[i].AdistChannel4,  &packet.blocks[i].AdistChannel5,
-            &packet.blocks[i].AdistChannel6, &packet.blocks[i].AdistChannel7,  &packet.blocks[i].AdistChannel8,
-            &packet.blocks[i].AdistChannel9, &packet.blocks[i].AdistChannel10, &packet.blocks[i].AdistChannel11,
-            &packet.blocks[i].AdistChannel12,&packet.blocks[i].AdistChannel13, &packet.blocks[i].AdistChannel14,
-            &packet.blocks[i].AdistChannel15
-            //&packet.blocks[i].BdistChannel0, &packet.blocks[i].BdistChannel1,  &packet.blocks[i].BdistChannel2,
-            //&packet.blocks[i].BdistChannel3, &packet.blocks[i].BdistChannel4,  &packet.blocks[i].BdistChannel5,
-            //&packet.blocks[i].BdistChannel6, &packet.blocks[i].BdistChannel7,  &packet.blocks[i].BdistChannel8,
-            //&packet.blocks[i].BdistChannel9, &packet.blocks[i].BdistChannel10, &packet.blocks[i].BdistChannel11,
-            //&packet.blocks[i].BdistChannel12,&packet.blocks[i].BdistChannel13, &packet.blocks[i].BdistChannel14,
-            //&packet.blocks[i].BdistChannel15
+            //&packet.blocks[i].AdistChannel0, &packet.blocks[i].AdistChannel1,  &packet.blocks[i].AdistChannel2,
+            //&packet.blocks[i].AdistChannel3, &packet.blocks[i].AdistChannel4,  &packet.blocks[i].AdistChannel5,
+            //&packet.blocks[i].AdistChannel6, &packet.blocks[i].AdistChannel7,  &packet.blocks[i].AdistChannel8,
+            //&packet.blocks[i].AdistChannel9, &packet.blocks[i].AdistChannel10, &packet.blocks[i].AdistChannel11,
+            //&packet.blocks[i].AdistChannel12,&packet.blocks[i].AdistChannel13, &packet.blocks[i].AdistChannel14,
+            //&packet.blocks[i].AdistChannel15,
+            &packet.blocks[i].BdistChannel0, &packet.blocks[i].BdistChannel1,  &packet.blocks[i].BdistChannel2,
+            &packet.blocks[i].BdistChannel3, &packet.blocks[i].BdistChannel4,  &packet.blocks[i].BdistChannel5,
+            &packet.blocks[i].BdistChannel6, &packet.blocks[i].BdistChannel7,  &packet.blocks[i].BdistChannel8,
+            &packet.blocks[i].BdistChannel9, &packet.blocks[i].BdistChannel10, &packet.blocks[i].BdistChannel11,
+            &packet.blocks[i].BdistChannel12,&packet.blocks[i].BdistChannel13, &packet.blocks[i].BdistChannel14,
+            &packet.blocks[i].BdistChannel15
         };
+
+        uint8_t* reflectivity[] = {
+            //&packet.blocks[i].Areflectchannel0, &packet.blocks[i].Areflectchannel1,  &packet.blocks[i].Areflectchannel2,
+            //&packet.blocks[i].Areflectchannel3, &packet.blocks[i].Areflectchannel4,  &packet.blocks[i].Areflectchannel5,
+            //&packet.blocks[i].Areflectchannel6, &packet.blocks[i].Areflectchannel7,  &packet.blocks[i].Areflectchannel8,
+            //&packet.blocks[i].Areflectchannel9, &packet.blocks[i].Areflectchannel10, &packet.blocks[i].Areflectchannel11,
+            //&packet.blocks[i].Areflectchannel12,&packet.blocks[i].Areflectchannel13, &packet.blocks[i].Areflectchannel14,
+            //&packet.blocks[i].Areflectchannel15,
+            &packet.blocks[i].Breflectchannel0, &packet.blocks[i].Breflectchannel1,  &packet.blocks[i].Breflectchannel2,
+            &packet.blocks[i].Breflectchannel3, &packet.blocks[i].Breflectchannel4,  &packet.blocks[i].Breflectchannel5,
+            &packet.blocks[i].Breflectchannel6, &packet.blocks[i].Breflectchannel7,  &packet.blocks[i].Breflectchannel8,
+            &packet.blocks[i].Breflectchannel9, &packet.blocks[i].Breflectchannel10, &packet.blocks[i].Breflectchannel11,
+            &packet.blocks[i].Breflectchannel12,&packet.blocks[i].Breflectchannel13, &packet.blocks[i].Breflectchannel14,
+            &packet.blocks[i].Breflectchannel15
+        };
+
 
         for(int j = 0 ; j<16 ; j++){
             Point point;
             point.x = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * sinf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
             point.y = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * cosf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
             point.z = static_cast<float>(*distChannels[j]) * .002f * sinf(verticalAngle[i]);
+            point.reflectivity = reflectivity[j];
+            if( reflectivity >= threashhold){
+                points.push_back(point); 
+            }
 
-            points.push_back(point); 
 
         }
         

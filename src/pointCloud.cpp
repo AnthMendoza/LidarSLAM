@@ -21,6 +21,15 @@ void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
 }
 
 
+void filterPoints(Point &points){
+
+    for(auto point : points){
+        
+    }
+
+}
+
+
 
 
 int main() {
@@ -47,8 +56,11 @@ int main() {
     std::vector<Point> points;
     std::array<std::vector<Point>, 300> setOfPoints = {};
     int count = 0;
+
+
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
+        filterPoints(points);
 
         setOfPoints[static_cast<int>(count%300)] = points;
 
@@ -61,7 +73,6 @@ int main() {
 
         glMatrixMode(GL_PROJECTION);
         glLoadMatrixf(glm::value_ptr(projection));
-
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glTranslatef(4.0f, 4.0f, 4.0f);

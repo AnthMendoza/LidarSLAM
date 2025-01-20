@@ -88,6 +88,7 @@ struct Packet{
 
 struct Point {
     float x, y, z;
+    uint8_t reflectivity;
 };
 
 
