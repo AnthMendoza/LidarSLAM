@@ -8,6 +8,7 @@
 #include "../include/VLPAPI.h"
 #include <thread>
 #include <iostream>
+#include <algorithm>
 
 
 void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
@@ -21,13 +22,52 @@ void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
 }
 
 
-//void filterPoints(Point &points){
-//
-//    for(auto point : points){
-//        
-//    }
-//
-//}
+
+
+void filterPoints(std::vector<Point> &points) {
+    if (points.empty()) return;
+
+    auto computeIQR = [](std::vector<Point> &sorted, auto valueAccessor) {
+        size_t n = sorted.size();
+        float Q1 = valueAccessor(sorted[n / 4]);
+        float Q3 = valueAccessor(sorted[3 * n / 4]);
+        float IQR = Q3 - Q1;
+        float lowerBound = Q1 - 1.5f * IQR;
+        float upperBound = Q3 + 1.5f * IQR;
+
+        return std::make_pair(lowerBound, upperBound);
+    };
+    
+    std::vector<Point> Xsorted = points;
+    std::vector<Point> Ysorted = points;
+    std::vector<Point> Zsorted = points;
+
+    std::sort(Xsorted.begin(), Xsorted.end(), [](const Point &a, const Point &b) {
+        return a.x < b.x;
+    });
+    std::sort(Ysorted.begin(), Ysorted.end(), [](const Point &a, const Point &b) {
+        return a.y < b.y;
+    });
+    std::sort(Zsorted.begin(), Zsorted.end(), [](const Point &a, const Point &b) {
+        return a.z < b.z;
+    });
+
+    auto [xLower, xUpper] = computeIQR(Xsorted, [](const Point &p) { return p.x; });
+    auto [yLower, yUpper] = computeIQR(Ysorted, [](const Point &p) { return p.y; });
+    auto [zLower, zUpper] = computeIQR(Zsorted, [](const Point &p) { return p.z; });
+
+
+    std::vector<Point> filteredPoints;
+    for (const auto &p : points) {
+        if (p.x >= xLower && p.x <= xUpper &&
+            p.y >= yLower && p.y <= yUpper &&
+            p.z >= zLower && p.z <= zUpper) {
+            filteredPoints.push_back(p);
+        }
+    }
+
+    points = std::move(filteredPoints);
+}
 
 
 
@@ -60,7 +100,7 @@ int main() {
 
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
-        //filterPoints(points);
+        filterPoints(points);
 
         setOfPoints[static_cast<int>(count%300)] = points;
 
