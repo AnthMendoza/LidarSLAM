@@ -11,7 +11,7 @@
 #include <algorithm>
 
 
-void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
+void drawPointCloud(const std::array<std::vector<Point>, 1> &setOfPoints) {
     glBegin(GL_POINTS);
     for(const auto cluster : setOfPoints ){
         for (const auto& point : cluster) {
@@ -24,52 +24,29 @@ void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
 
 
 
+void filterPoints(Point &points){
+
+    std::vector<Point> Xsorted;
+    std::vector<Point> Ysorted;
+    std::vector<Point> Zsorted;
+    Xsorted.reserve(points.size());
+    Ysorted.reserve(points.size());
+    Zsorted.reserve(points.size());
 
 
-void filterPoints(std::vector<Point> &points) {
-    if (points.empty()) return;
-
-    auto computeIQR = [](std::vector<Point> &sorted, auto valueAccessor) -> std::pair<float, float> {
-        size_t n = sorted.size();
-        float Q1 = valueAccessor(sorted[n / 4]);
-        float Q3 = valueAccessor(sorted[3 * n / 4]);
-        float IQR = Q3 - Q1;
-        float lowerBound = Q1 - 1.5f * IQR;
-        float upperBound = Q3 + 1.5f * IQR;
-
-        return {lowerBound, upperBound};
-    };
-
-    std::vector<Point> Xsorted = points;
-    std::vector<Point> Ysorted = points;
-    std::vector<Point> Zsorted = points;
-
-    std::sort(Xsorted.begin(), Xsorted.end(), [](const Point &a, const Point &b) {
+    std::sort(Xsorted.begin(), Xsorted.end(), [](const Point& a, const Point& b) {
         return a.x < b.x;
     });
-    std::sort(Ysorted.begin(), Ysorted.end(), [](const Point &a, const Point &b) {
+
+    std::sort(Ysorted.begin(), Ysorted.end(), [](const Point& a, const Point& b) {
         return a.y < b.y;
     });
-    std::sort(Zsorted.begin(), Zsorted.end(), [](const Point &a, const Point &b) {
+
+    std::sort(Zsorted.begin(), Zsorted.end(), [](const Point& a, const Point& b) {
         return a.z < b.z;
     });
 
-    auto [xLower, xUpper] = computeIQR(Xsorted, [](const Point &p) { return p.x; });
-    auto [yLower, yUpper] = computeIQR(Ysorted, [](const Point &p) { return p.y; });
-    auto [zLower, zUpper] = computeIQR(Zsorted, [](const Point &p) { return p.z; });
-
-    std::vector<Point> filteredPoints;
-    for (const auto &p : points) {
-        if (p.x >= xLower && p.x <= xUpper &&
-            p.y >= yLower && p.y <= yUpper &&
-            p.z >= zLower && p.z <= zUpper) {
-            filteredPoints.push_back(p);
-        }
-    }
-
-    points = std::move(filteredPoints);
 }
-
 
 
 
@@ -96,15 +73,15 @@ int main() {
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
     std::vector<Point> points;
-    std::array<std::vector<Point>, 300> setOfPoints = {};
+    std::array<std::vector<Point>, 1> setOfPoints = {};
     int count = 0;
 
 
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
-        filterPoints(points);
+        //filterPoints(points);
 
-        setOfPoints[static_cast<int>(count%300)] = points;
+        setOfPoints[static_cast<int>(count%1)] = points;
 
         count++;
 
