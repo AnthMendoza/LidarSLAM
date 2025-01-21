@@ -45,6 +45,8 @@ void filterPoints(std::vector<Point> &points){
     std::sort(Zsorted.begin(), Zsorted.end(), [](const Point& a, const Point& b) {
         return a.z < b.z;
     });
+    
+    
 
 }
 
