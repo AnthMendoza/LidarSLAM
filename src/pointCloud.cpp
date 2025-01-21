@@ -24,7 +24,7 @@ void drawPointCloud(const std::array<std::vector<Point>, 1> &setOfPoints) {
 
 
 
-void filterPoints(Point &points){
+void filterPoints(std::vector<Point> &points){
 
     std::vector<Point> Xsorted;
     std::vector<Point> Ysorted;
