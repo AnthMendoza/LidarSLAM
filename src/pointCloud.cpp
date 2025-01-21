@@ -24,10 +24,17 @@ void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
 
 
 
+#include <vector>
+#include <algorithm>
+
+struct Point {
+    float x, y, z;
+};
+
 void filterPoints(std::vector<Point> &points) {
     if (points.empty()) return;
 
-    auto computeIQR = [](std::vector<Point> &sorted, auto valueAccessor) {
+    auto computeIQR = [](std::vector<Point> &sorted, auto valueAccessor) -> std::pair<float, float> {
         size_t n = sorted.size();
         float Q1 = valueAccessor(sorted[n / 4]);
         float Q3 = valueAccessor(sorted[3 * n / 4]);
@@ -35,9 +42,9 @@ void filterPoints(std::vector<Point> &points) {
         float lowerBound = Q1 - 1.5f * IQR;
         float upperBound = Q3 + 1.5f * IQR;
 
-        return std::make_pair(lowerBound, upperBound);
+        return {lowerBound, upperBound};
     };
-    
+
     std::vector<Point> Xsorted = points;
     std::vector<Point> Ysorted = points;
     std::vector<Point> Zsorted = points;
@@ -56,7 +63,6 @@ void filterPoints(std::vector<Point> &points) {
     auto [yLower, yUpper] = computeIQR(Ysorted, [](const Point &p) { return p.y; });
     auto [zLower, zUpper] = computeIQR(Zsorted, [](const Point &p) { return p.z; });
 
-
     std::vector<Point> filteredPoints;
     for (const auto &p : points) {
         if (p.x >= xLower && p.x <= xUpper &&
@@ -68,6 +74,7 @@ void filterPoints(std::vector<Point> &points) {
 
     points = std::move(filteredPoints);
 }
+
 
 
 
