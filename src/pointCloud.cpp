@@ -24,12 +24,7 @@ void drawPointCloud(const std::array<std::vector<Point>, 300> &setOfPoints) {
 
 
 
-#include <vector>
-#include <algorithm>
 
-struct Point {
-    float x, y, z;
-};
 
 void filterPoints(std::vector<Point> &points) {
     if (points.empty()) return;
