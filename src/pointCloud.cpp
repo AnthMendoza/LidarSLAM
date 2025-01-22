@@ -9,14 +9,16 @@
 #include <thread>
 #include <iostream>
 #include <algorithm>
+#include <queue>
 
 
-void drawPointCloud(const std::array<std::vector<Point>, 1> &setOfPoints) {
+void drawPointCloud(const std::array<Point,5000>setOfPoints) {
     glBegin(GL_POINTS);
-    for(const auto cluster : setOfPoints ){
-        for (const auto& point : cluster) {
-            glVertex3f(point.x, point.y, point.z);
+    for(const auto point : setOfPoints ){
+        if(point.x <= 1 && point.y <= 1 ){
+            continue;
         }
+        glVertex3f(point.x, point.y, point.z);
     }
     glEnd();
 }
@@ -24,7 +26,7 @@ void drawPointCloud(const std::array<std::vector<Point>, 1> &setOfPoints) {
 
 
 
-void filterPoints(std::vector<Point> &points){
+void filterPoints(std::array<Point,5000> &points){
 
     std::vector<Point> Xsorted;
     std::vector<Point> Ysorted;
@@ -45,8 +47,24 @@ void filterPoints(std::vector<Point> &points){
     std::sort(Zsorted.begin(), Zsorted.end(), [](const Point& a, const Point& b) {
         return a.z < b.z;
     });
-    
-    
+    //check neighbors
+    // x x x x x
+    // x x C x x
+    // x C o C x
+    // x x C x x
+    // x x x x x
+    for(int i = 0 ; i < Xsorted.size() ; i++ ){
+
+
+    }
+        for(int i = 0 ; i < Xsorted.size() ; i++ ){
+        
+
+    }
+        for(int i = 0 ; i < Xsorted.size() ; i++ ){
+        
+
+    }
 
 }
 
@@ -74,22 +92,13 @@ int main() {
 
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
-    std::vector<Point> points;
-    std::array<std::vector<Point>, 1> setOfPoints = {};
-    int count = 0;
+
+    std::queue<Point> points;
 
 
     while (!glfwWindowShouldClose(window)) {
         getPoints(points);
-        //filterPoints(points);
 
-        setOfPoints[static_cast<int>(count%1)] = points;
-
-        count++;
-
-        for(auto point : points ){
-            std::cout<< "("<<point.x << " , " << point.y << " , " <<point.z << ")";
-        }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_PROJECTION);
@@ -104,7 +113,7 @@ int main() {
         glMatrixMode(GL_MODELVIEW);
         glLoadMatrixf(glm::value_ptr(view)); // Apply the view matrix
 
-        drawPointCloud(setOfPoints);
+        drawPointCloud(points);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

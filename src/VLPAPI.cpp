@@ -12,20 +12,25 @@
 #include <array>
 #include "../include/VLPAPI.h"
 #include <cmath>
+#include <queue> 
 
 
-
-uint8_t threashold = 10;
+uint8_t threasholdLower = 10;
+uint8_t threasholdUpper = 100;
+float maxDistance = 70;
 
 Packet packet;
 
-std::vector<Point> points;
-
 std::mutex readAndWrite;
+
+std::array<Point,5000> setOfPoints = {};
+
+uint32_t count = 0;
 
 void readPacket(Packet &packet , std::vector<Point> &points , std::array<float , 16> &verticalAngle){
     std::lock_guard<std::mutex> lock(readAndWrite);
-    points.clear();
+
+
 
     for( int i = 0 ; i <  12 ; i++){
 
@@ -66,11 +71,10 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             point.y = static_cast<float>(*distChannels[j]) * .002f * cosf(verticalAngle[i]) * cosf((static_cast<float>(packet.blocks[i].azimuth)/100)* 0.01745329252f);
             point.z = static_cast<float>(*distChannels[j]) * .002f * sinf(verticalAngle[i]);
             point.reflectivity = *reflectivity[j];
-            if( *reflectivity[j] >= threashold){
-                points.push_back(point); 
+            if( *reflectivity[j] >= threasholdLower && *reflectivity[j] <= threasholdUpper && static_cast<float>(*distChannels[j]) < maxDistance){
+                setOfPoints[count%5000] = point;
+                count++;
             }
-
-
         }
         
     }
@@ -78,9 +82,9 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
 }
 
 
-void getPoints(std::vector<Point> &returnPoints){
+void getPoints(std::array<Point> &returnPoints){
     std::lock_guard<std::mutex> lock(readAndWrite);
-    returnPoints = points;
+    returnPoints = setOfPoints;
 
 }
 
