@@ -79,6 +79,8 @@ struct dataBlock{
     uint8_t  Breflectchannel15;
 };
 
+inline const size_t pointSize = 5000;
+
 struct Packet{
 
     std::array<dataBlock, 16> blocks; 
@@ -96,7 +98,7 @@ struct Point {
 
 void UDP();
 
-void getPoints(std::array<Point> &returnPoints);
+void getPoints(std::array<Point,pointSize> &returnPoints);
 
 
 #endif

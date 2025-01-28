@@ -11,8 +11,7 @@
 #include <algorithm>
 #include <queue>
 
-
-void drawPointCloud(const std::array<Point,5000>setOfPoints) {
+void drawPointCloud(const std::array<Point,pointSize>setOfPoints) {
     glBegin(GL_POINTS);
     for(const auto point : setOfPoints ){
         if(point.x <= 1 && point.y <= 1 ){
@@ -26,7 +25,7 @@ void drawPointCloud(const std::array<Point,5000>setOfPoints) {
 
 
 
-void filterPoints(std::array<Point,5000> &points){
+void filterPoints(std::array<Point,pointSize> &points){
 
     std::vector<Point> Xsorted;
     std::vector<Point> Ysorted;

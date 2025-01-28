@@ -23,8 +23,8 @@ Packet packet;
 
 std::mutex readAndWrite;
 
-std::array<Point,5000> setOfPoints = {};
 
+std::array<Point,pointSize> setOfPoints = {};
 uint32_t count = 0;
 
 void readPacket(Packet &packet , std::vector<Point> &points , std::array<float , 16> &verticalAngle){
@@ -72,7 +72,7 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
             point.z = static_cast<float>(*distChannels[j]) * .002f * sinf(verticalAngle[i]);
             point.reflectivity = *reflectivity[j];
             if( *reflectivity[j] >= threasholdLower && *reflectivity[j] <= threasholdUpper && static_cast<float>(*distChannels[j]) < maxDistance){
-                setOfPoints[count%5000] = point;
+                setOfPoints[count%pointSize] = point;
                 count++;
             }
         }
@@ -82,7 +82,7 @@ void readPacket(Packet &packet , std::vector<Point> &points , std::array<float ,
 }
 
 
-void getPoints(std::array<Point> &returnPoints){
+void getPoints(std::array<Point,pointSize> &returnPoints){
     std::lock_guard<std::mutex> lock(readAndWrite);
     returnPoints = setOfPoints;
 
