@@ -9,7 +9,6 @@
 #include <thread>
 #include <iostream>
 #include <algorithm>
-#include <queue>
 
 void drawPointCloud(const std::array<Point,pointSize>setOfPoints) {
     glBegin(GL_POINTS);
@@ -92,7 +91,7 @@ int main() {
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 10000.0f);
 
-    std::queue<Point> points;
+    std::array<Point,pointSize> points;
 
 
     while (!glfwWindowShouldClose(window)) {
