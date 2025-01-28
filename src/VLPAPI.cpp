@@ -27,7 +27,7 @@ std::mutex readAndWrite;
 std::array<Point,pointSize> setOfPoints = {};
 uint32_t count = 0;
 
-void readPacket(Packet &packet , std::vector<Point> &points , std::array<float , 16> &verticalAngle){
+void readPacket(Packet &packet ,std::array<float , 16> &verticalAngle){
     std::lock_guard<std::mutex> lock(readAndWrite);
 
 
@@ -140,7 +140,7 @@ void UDP() {
                 memcpy(&packet.blocks[i] , buffer + i * 100 , 100);
             }
             memcpy(&packet.timeStamp , buffer + 1200, 4);
-            readPacket(packet , points,verticalAngles);
+            readPacket(packet ,verticalAngles);
         }else{
             std::cout<<"Packet Failed expected size " << BUFFER_SIZE << "bytes : recieved "<< bytesReceived << " bytes";
         }
